@@ -1,5 +1,6 @@
 <html>
 <head>
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Comfortaa&subset=latin,cyrillic">
 <style>
 #board-container {
     display: flex;
@@ -14,7 +15,10 @@
     grid-gap: 5px;
     padding: 10px;
     box-sizing: border-box;
+	width: 350px;
+    height: 420px;
 }
+  
 .tile {
 	width: 100%;
     display: inline-flex;
@@ -25,12 +29,13 @@
     font-weight: bold;
     vertical-align: middle;
     box-sizing: border-box;
-    color: #1569C7;
+    color: #385C7D;
     text-transform: uppercase;
     user-select: none;
-	border: 2px solid grey;
+	border: 2px solid #385C7D;
+	border-radius: 0.625rem;
 }
-#board .row {
+.row {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-gap: 5px;
@@ -77,15 +82,15 @@ button[disabled] {
 	opacity: 0.4;
     color: #777;
 }
-#keyboard button[data-state='correct'], #board .row .tile[data-state='correct'] {
+#keyboard button[data-state='correct'], .row .tile[data-state='correct'] {
     background-color: #79FD86;
     color: #ffffff;
 }
-#keyboard button[data-state='present'], #board .row .tile[data-state='present'] {
-    background-color: #FCE361;
+#keyboard button[data-state='present'], .row .tile[data-state='present'] {
+    background-color: #BEA8F5;
     color: #ffffff;
 }
-#keyboard button[data-state='absent'], #board .row .tile[data-state='absent'] {
+#keyboard button[data-state='absent'], .row .tile[data-state='absent'] {
     background-color: #787c7e;
     color:#ffffff;
 }
@@ -93,30 +98,128 @@ button[disabled] {
     margin:auto;
 	display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: end;
 }
 #logo img {
     width: 20rem;	
 }
 #invalidWarning {
-    background-color: black;
+    background-color: #385C7D;
+	width: 180px;
     color: white;
     padding: 15px;
     margin: auto;
     margin-top: 10px;
 }
 .hidden {
-  display: none;
+  visibility: hidden;
+}
+#helpMenu {
+	margin: auto;
+	width: 250px;
+	z-index: 10;
+	position: absolute;
+	left: 0;
+    right: 0;
+	background: #FCE361;
+	padding: 0rem 2rem 1rem 2rem;
+}
+#helpMenu .tile {
+	font-size: 1.5rem;
+    border-radius: 0.3rem;
+}
+#closeHelp {
+	position: absolute;
+    top: 15px;
+    right: 15px;
+	cursor: pointer;
+}
+button.icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0 4px;
+}
+.char {
+	font-weight: 600;
+}
+@media (max-height: 875px) {
+	.tile{
+		font-size: 1em;
+		line-height: 1em;
+	}
+	#board {
+		width: 230px;
+		height: 280px;
+	}
+	#logo img {
+		width: 13rem;	
+	}
+	#invalidWarning {
+		padding: 0.5rem;
+		margin-top: 0.5rem;
+	}
+	#keyboard button {
+		height: 2em;
+	}
+}
+@media (max-height: 570px) {
+	.tile{
+		font-size: 0.8rem;
+		line-height: 0.8rem;
+		border-radius: 0.3rem;
+	}
+	#board {
+		width: 138px;
+		height: 168px;
+	}
+	#logo img {
+		width: 8rem;	
+	}
+	#invalidWarning {
+		padding: 0.5rem;
+		margin-top: 0.5rem;
+	}
+	#keyboard button {
+		height: 2em;
+	}
 }
 </style>
 </head>
 <body>
 <div id="logo">
 	<img src="slova.png" />
+	<button id="help-button" class="icon" onclick="showHelp()">
+<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+    <path fill="#385C7D" d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"></path>
+  </svg>
+</button>
 </div>
+
+<div id="helpMenu" style="display: none;">
+<h3>инструкции</h3>
+<div id="closeHelp" onclick="showHelp()">
+<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+    <path fill="var(--color-tone-3)" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
+  </svg>
+</div>
+
+<p>Догадки должны быть действительными словами.</p>
+<div class="row">
+	<div class="tile" data-state="correct">с</div>
+	<div class="tile" data-state="absent">л</div>
+	<div class="tile" data-state="present">о</div>
+	<div class="tile" data-state="present">в</div>
+	<div class="tile" data-state="absent">а</div>
+</div>
+<p><span class="char">с</span> находится в правильном месте.<br />
+<span class="char">о</span> в слове, но не в том месте.<br />
+<span class="char">а</span> не в слове.</p>
+</div>
+
 <div id="invalidWarning" class="hidden">Это не настоящее слово</div>
 <div id="board-container">
-<div id="board" style="width: 350px; height: 420px;">
+<div id="board">
 </div>
 </div>
 <div id="keyboard">
@@ -183,15 +286,23 @@ let currentRow = 0;
 let currentTile = 0;
 let currentWord = "";
 let seenWords = [];
+let guesses = [];
+let Difference_In_Days;
 let foundWord = false
 const validChars = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
 async function test() {
-	const url = "https://raw.githubusercontent.com/Dird/ru/main/shuffle.txt"
-	const response = await fetch(url);
-	const wordles = await response.text();
-	const words = wordles.split('\n');
-	possibleWords = words;
-   
+	const cachedWords = localStorage.getItem('wordcache_1');	
+	if (!cachedWords) {
+		const url = "https://raw.githubusercontent.com/Dird/ru/main/shuffle.txt"
+		const response = await fetch(url);
+		const wordles = await response.text();
+		const words = wordles.split('\n');
+		possibleWords = words;
+		localStorage.setItem('wordcache_1', words);
+	} else {
+		possibleWords = cachedWords.split(',');
+	}
+	
 	const start_date = new Date(2022, 0, 22);
 	const present_date = new Date();
 	const present_utc = new Date(present_date.getTime() + present_date.getTimezoneOffset() * 60 * 1000);
@@ -199,10 +310,13 @@ async function test() {
 	// To calculate the time difference of two dates
 	const Difference_In_Time = present_utc.getTime() - start_date.getTime();  
 	// To calculate the no. of days between two dates
-	const Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);	
-   
-	wordOfTheDay = words[Difference_In_Days % words.length];
+	Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);	
+	
+	wordOfTheDay = possibleWords[Difference_In_Days % possibleWords.length];		
 	buildView();
+	
+	let previousAttempt = localStorage.getItem('day_' + Difference_In_Days);
+	fillPreviousAttempt(previousAttempt);
 }
 function buildView() {
 	for(let r = 0; r<6; r++) {
@@ -221,11 +335,30 @@ function buildView() {
 	}
 	
 }
+function fillPreviousAttempt(previousAttempt) {
+	if (!previousAttempt) return;
+	attempts = previousAttempt.split(',');
+	
+	for(let w = 0; w < attempts.length; w++) {
+		for (let c = 0; c < 5; c++) {
+			checkInput(attempts[w][c]);
+		}
+		checkInput('enter');
+	}
+}
 function showInvalidWordWarning() {
 	document.getElementById('invalidWarning').classList.remove('hidden');
   setTimeout(function(){
     document.getElementById('invalidWarning').classList.add('hidden');
   },2000)
+}
+function showHelp() {
+	const menu = document.getElementById('helpMenu');
+	if(menu.style.display === "none") {
+	menu.style.display = "block";
+	} else {
+		menu.style.display = "none";
+	}
 }
 function buttonClick(e) {
 	const val = e.innerHTML.toLowerCase();
@@ -289,11 +422,13 @@ function checkWord() {
 			document.getElementById(currentRow + '_' + i).setAttribute("data-state", "absent");
 		}
 	}	
+	guesses.push(currentWord);
+	localStorage.setItem('day_' + Difference_In_Days, guesses);
 	if (currentWord == wordOfTheDay) {
 		alert('uraaa! ты выиграл!');
 		foundWord = true;
 		return;
-	}
+	}	
 	currentRow++;
 	currentTile = 0;	
 	currentWord = "";
