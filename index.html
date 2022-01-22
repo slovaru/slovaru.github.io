@@ -1,0 +1,267 @@
+<html>
+<head>
+<style>
+#board-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    overflow: hidden;
+}
+#board {
+    display: grid;
+    grid-template-rows: repeat(6, 1fr);
+    grid-gap: 5px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+.tile {
+	width: 100%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    line-height: 2rem;
+    font-weight: bold;
+    vertical-align: middle;
+    box-sizing: border-box;
+    color: #1569C7;
+    text-transform: uppercase;
+    user-select: none;
+	border: 2px solid grey;
+}
+#board .row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 5px;
+}
+#keyboard  {
+	margin: auto;
+    user-select: none;
+	width: 60%;
+}
+#keyboard .row {
+	display: flex;
+    width: 100%;
+    margin: 0 auto 8px;
+    touch-action: manipulation;
+	align-items: center;
+    justify-content: center;
+	
+}
+#keyboard button {
+	font-family: inherit;
+    font-weight: bold;
+    border: 0;
+    padding: 0;
+    margin: 0 6px 0 0;
+    height: 3.625em;
+	width: 3.625em;
+    border-radius: 4px;
+    cursor: pointer;
+    user-select: none;
+    background-color: #d3d6da;;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    -webkit-tap-highlight-color: rgba(0,0,0,0.3);
+}
+#keyboard button.one-and-a-half {
+    width: 7em;
+    font-size: 0.75em;
+}
+button[disabled] {
+	cursor: not-allowed;
+	opacity: 0.4;
+    color: #777;
+}
+#keyboard button[data-state='correct'], #board .row .tile[data-state='correct'] {
+    background-color: #6aaa64;
+    color: #ffffff;
+}
+#keyboard button[data-state='present'], #board .row .tile[data-state='present'] {
+    background-color: #c9b458;
+    color: #ffffff;
+}
+#keyboard button[data-state='absent'], #board .row .tile[data-state='absent'] {
+    background-color: #787c7e;
+    color:#ffffff;
+}
+#logo {
+    margin:auto;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#logo img {
+    width: 20rem;	
+}
+</style>
+</head>
+<body>
+<div id="logo">
+<img src="https://raw.githubusercontent.com/Dird/slova/main/slova.png?token=GHSAT0AAAAAABQTAOD4ZFXHNAJKY5DAB3LIYPMHLYQ" />
+</div>
+<div id="board-container">
+<div id="board" style="width: 350px; height: 420px;">
+</div>
+</div>
+<div id="keyboard">
+<div class="row">
+	<button id="ё" onclick="buttonClick(this)">ё</button>
+	<button id="1" disabled>1</button>
+	<button id="2" disabled>2</button>
+	<button id="3" disabled>3</button>
+	<button id="4" disabled>4</button>
+	<button id="5" disabled>5</button>
+	<button id="6" disabled>6</button>
+	<button id="7" disabled>7</button>
+	<button id="8" disabled>8</button>
+	<button id="9" disabled>9</button>
+	<button id="0" disabled>0</button>
+	<button id="ъ" onclick="buttonClick(this)">ъ</button>
+</div>
+<div class="row">
+	<button id="я" onclick="buttonClick(this)">я</button>
+	<button id="ш" onclick="buttonClick(this)">ш</button>
+	<button id="е" onclick="buttonClick(this)">е</button>
+	<button id="р" onclick="buttonClick(this)">р</button>
+	<button id="т" onclick="buttonClick(this)">т</button>
+	<button id="ы" onclick="buttonClick(this)">ы</button>
+	<button id="у" onclick="buttonClick(this)">у</button>
+	<button id="и" onclick="buttonClick(this)">и</button>
+	<button id="о" onclick="buttonClick(this)">о</button>
+	<button id="п" onclick="buttonClick(this)">п</button>
+	<button id="ю" onclick="buttonClick(this)">ю</button>
+	<button id="щ" onclick="buttonClick(this)">щ</button>
+	<button id="э" onclick="buttonClick(this)">э</button>
+</div>
+<div class="row">
+	<button id="а" onclick="buttonClick(this)">а</button>
+	<button id="с" onclick="buttonClick(this)">с</button>
+	<button id="д" onclick="buttonClick(this)">д</button>
+	<button id="ф" onclick="buttonClick(this)">ф</button>
+	<button id="г" onclick="buttonClick(this)">г</button>
+	<button id="ч" onclick="buttonClick(this)">ч</button>
+	<button id="й" onclick="buttonClick(this)">й</button>
+	<button id="к" onclick="buttonClick(this)">к</button>
+	<button id="л" onclick="buttonClick(this)">л</button>
+	<button id="ь" onclick="buttonClick(this)">ь</button>
+	<button id="ж" onclick="buttonClick(this)">ж</button>
+</div>
+<div class="row">
+	<button id="↵" class="one-and-a-half" onclick="buttonClick(this)">enter</button>
+	<button id="з" onclick="buttonClick(this)">з</button>
+	<button id="х" onclick="buttonClick(this)">х</button>
+	<button id="ц" onclick="buttonClick(this)">ц</button>
+	<button id="в" onclick="buttonClick(this)">в</button>
+	<button id="б" onclick="buttonClick(this)">б</button>
+	<button id="н" onclick="buttonClick(this)">н</button>
+	<button id="м" onclick="buttonClick(this)">м</button>
+	<button id="←" class="one-and-a-half" onclick="buttonClick(this)">del</button>
+</div>
+</div>
+</body>
+</html>
+<script>
+let wordOfTheDay;
+let possibleWords;
+let currentRow = 0;
+let currentTile = 0;
+let currentWord = "";
+let seenWords = [];
+let foundWord = false;
+async function test() {
+	const url = "https://raw.githubusercontent.com/Dird/ru/main/shuffle.txt"
+	const response = await fetch(url);
+	const wordles = await response.text();
+	const words = wordles.split('\n');
+   
+	const start_date = new Date(2022, 0, 22);
+	const present_date = new Date();
+	const present_utc = new Date(present_date.getTime() + present_date.getTimezoneOffset() * 60 * 1000);
+	present_utc.setHours(0, 0, 0, 0);
+	// To calculate the time difference of two dates
+	const Difference_In_Time = present_utc.getTime() - start_date.getTime();  
+	// To calculate the no. of days between two dates
+	const Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);	
+	console.log('dif in days: ' + Difference_In_Days);
+   
+	wordOfTheDay = words[Difference_In_Days % words.length];
+	console.log(wordOfTheDay);
+	buildView();
+}
+function buildView() {
+	for(let r = 0; r<6; r++) {
+		var row = document.createElement('div');
+		row.id = r;
+		row.className = 'row';
+		document.getElementById('board').appendChild(row);
+		for(let c = 0; c<5; c++) {
+			var tile = document.createElement('div');
+			tile.className = 'tile';
+			tile.id = r + '_' + c;
+			tile.innerHTML = '';
+			document.getElementById(r).appendChild(tile);
+		}
+	
+	}
+	
+}
+function buttonClick(e) {
+	const val = e.innerHTML.toLowerCase();
+	if (currentTile == 0 && val == 'del') { return; }
+	if (currentTile != 5 && val == 'enter') { return; }
+	if (val == "del") { deleteChar(); return; }
+	if (val == "enter") { checkWord(); return; }
+	currentWord += val;
+	document.getElementById(currentRow + '_' + currentTile).innerHTML = val;
+	currentTile++;	
+}
+function deleteChar() {
+	currentTile--;
+	document.getElementById(currentRow + '_' + currentTile).innerHTML = '';	
+	currentWord = currentWord.substring(0, currentWord.length-1);
+}
+function checkWord() {
+	if (currentWord == 6 || foundWord) {
+		alert('игра закончена. Чтобы воспроизвести снова, обновите страницу. ответ был:' + wordOfTheDay);
+		return;
+	}
+	if (!possibleWords.includes(currentWord)) {
+		alert('Это не настоящее слово, блин');
+		return;
+	}
+	for (let i = 0; i < currentWord.length; i++) {
+		if (wordOfTheDay.includes(currentWord[i])) {
+			if (!seenWords.includes(currentWord[i])) {
+				seenWords.push(currentWord[i]);				
+			}
+			if (wordOfTheDay[i] == currentWord[i]) {
+				document.getElementById(currentWord[i]).setAttribute("data-state", "correct");
+				document.getElementById(currentRow + '_' + i).setAttribute("data-state", "correct");
+			} else {
+				document.getElementById(currentRow + '_' + i).setAttribute("data-state", "present");				
+				if (!document.getElementById(currentWord[i]).hasAttribute('data-state')) {
+					document.getElementById(currentWord[i]).setAttribute("data-state", "present");
+				}
+			}
+			
+		} else {
+			document.getElementById(currentWord[i]).setAttribute("data-state", "absent");
+			document.getElementById(currentRow + '_' + i).setAttribute("data-state", "absent");
+		}
+	}	
+	if (currentWord == wordOfTheDay) {
+		alert('uraaa! ты выиграл!');
+		foundWord = true;
+		return;
+	}
+	currentRow++;
+	currentTile = 0;	
+	currentWord = "";
+}
+window.onload = test;
+</script>
