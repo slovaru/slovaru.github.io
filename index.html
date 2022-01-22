@@ -78,11 +78,11 @@ button[disabled] {
     color: #777;
 }
 #keyboard button[data-state='correct'], #board .row .tile[data-state='correct'] {
-    background-color: #6aaa64;
+    background-color: #79FD86;
     color: #ffffff;
 }
 #keyboard button[data-state='present'], #board .row .tile[data-state='present'] {
-    background-color: #c9b458;
+    background-color: #FCE361;
     color: #ffffff;
 }
 #keyboard button[data-state='absent'], #board .row .tile[data-state='absent'] {
@@ -98,12 +98,23 @@ button[disabled] {
 #logo img {
     width: 20rem;	
 }
+#invalidWarning {
+    background-color: black;
+    color: white;
+    padding: 15px;
+    margin: auto;
+    margin-top: 10px;
+}
+.hidden {
+  display: none;
+}
 </style>
 </head>
 <body>
 <div id="logo">
-<img src="slova.png" />
+	<img src="slova.png" />
 </div>
+<div id="invalidWarning" class="hidden">Это не настоящее слово</div>
 <div id="board-container">
 <div id="board" style="width: 350px; height: 420px;">
 </div>
@@ -172,7 +183,8 @@ let currentRow = 0;
 let currentTile = 0;
 let currentWord = "";
 let seenWords = [];
-let foundWord = false;
+let foundWord = false
+const validChars = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
 async function test() {
 	const url = "https://raw.githubusercontent.com/Dird/ru/main/shuffle.txt"
 	const response = await fetch(url);
@@ -209,28 +221,45 @@ function buildView() {
 	}
 	
 }
+function showInvalidWordWarning() {
+	document.getElementById('invalidWarning').classList.remove('hidden');
+  setTimeout(function(){
+    document.getElementById('invalidWarning').classList.add('hidden');
+  },2000)
+}
 function buttonClick(e) {
 	const val = e.innerHTML.toLowerCase();
-	if (currentTile == 0 && val == 'del') { return; }
-	if (currentTile != 5 && val == 'enter') { return; }
+	checkInput(val);
+}
+function checkInput(val) {
 	if (val == "del") { deleteChar(); return; }
 	if (val == "enter") { checkWord(); return; }
 	currentWord += val;
 	document.getElementById(currentRow + '_' + currentTile).innerHTML = val;
-	currentTile++;	
+	currentTile++;
 }
 function deleteChar() {
+	if(currentTile == 0) {
+		return;
+	}
 	currentTile--;
 	document.getElementById(currentRow + '_' + currentTile).innerHTML = '';	
 	currentWord = currentWord.substring(0, currentWord.length-1);
 }
+
 function checkWord() {
-	if (currentWord == 6 || foundWord) {
+	if (currentTile != 5) {
+		return;
+	}
+	if (currentRow == 6 || foundWord) {
 		alert('игра закончена. Чтобы воспроизвести снова, обновите страницу. ответ был:' + wordOfTheDay);
 		return;
 	}
 	if (!possibleWords.includes(currentWord)) {
-		alert('Это не настоящее слово, блин');
+		showInvalidWordWarning();
+		while(currentTile > 0) {
+			deleteChar();
+		}
 		return;
 	}
 	for (let i = 0; i < currentWord.length; i++) {
@@ -296,8 +325,18 @@ function matchingPositions(arr1, arr2) {
 
 // Create listener 
 document.addEventListener('keydown', (e) => { 
-		console.log('keyCode: ' + e.keyCode);
-		console.log('key: ' + e.key);
+		const code = e.keyCode;
+		if (code == 0) {
+			return;
+		}
+		const key = e.key.toLowerCase();
+		if (validChars.includes(key)) {
+			checkInput(key);
+		} else if (code == 13) {
+			checkInput('enter');
+		} else if(code == 46 || code == 8) {
+			checkInput('del');
+		}
 	}
 );
 
