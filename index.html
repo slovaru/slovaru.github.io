@@ -178,6 +178,7 @@ async function test() {
 	const response = await fetch(url);
 	const wordles = await response.text();
 	const words = wordles.split('\n');
+	possibleWords = words;
    
 	const start_date = new Date(2022, 0, 22);
 	const present_date = new Date();
