@@ -188,10 +188,8 @@ async function test() {
 	const Difference_In_Time = present_utc.getTime() - start_date.getTime();  
 	// To calculate the no. of days between two dates
 	const Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);	
-	console.log('dif in days: ' + Difference_In_Days);
    
 	wordOfTheDay = words[Difference_In_Days % words.length];
-	console.log(wordOfTheDay);
 	buildView();
 }
 function buildView() {
@@ -244,7 +242,14 @@ function checkWord() {
 				document.getElementById(currentWord[i]).setAttribute("data-state", "correct");
 				document.getElementById(currentRow + '_' + i).setAttribute("data-state", "correct");
 			} else {
-				document.getElementById(currentRow + '_' + i).setAttribute("data-state", "present");				
+				wotdPos = getPositions(wordOfTheDay, currentWord[i]);
+				guessPos = getPositions(currentWord, currentWord[i]);
+				if (matchingPositions(wotdPos, guessPos)) {
+					document.getElementById(currentRow + '_' + i).setAttribute("data-state", "absent");	
+				} else {
+					document.getElementById(currentRow + '_' + i).setAttribute("data-state", "present");	
+				}
+							
 				if (!document.getElementById(currentWord[i]).hasAttribute('data-state')) {
 					document.getElementById(currentWord[i]).setAttribute("data-state", "present");
 				}
@@ -264,5 +269,57 @@ function checkWord() {
 	currentTile = 0;	
 	currentWord = "";
 }
+function getPositions(word, targetChar) {
+	let arr = [];
+	for(let i = 0; i<word.length; i++) {
+		if(word[i] == targetChar) {
+			arr.push(i);
+		}
+	}
+	return arr;
+}
+function matchingPositions(arr1, arr2) {
+	let aPos = 0;
+	let bPos = 0;
+	for(; aPos < arr1.length && bPos < arr2.length;) {
+		if(arr1[aPos] == arr2[bPos]) {
+			return true;
+		}
+		if (arr1[aPos] > arr2[bPos]) {
+			bPos++;
+		} else {
+			aPos++;
+		}
+	}
+	return false;
+}
+
+// Create listener 
+document.addEventListener('keydown', (e) => { 
+		console.log('keyCode: ' + e.keyCode);
+		console.log('key: ' + e.key);
+	}
+);
+
+// Create event
+const keyboardEvent = document.createEvent('KeyboardEvent');
+const initMethod = typeof keyboardEvent.initKeyboardEvent !== 'undefined' ? 'initKeyboardEvent' : 'initKeyEvent';
+
+keyboardEvent[initMethod](
+  'keydown', // event type: keydown, keyup, keypress
+  true,      // bubbles
+  true,      // cancelable
+  window,    // view: should be window
+  false,     // ctrlKey
+  false,     // altKey
+  false,     // shiftKey
+  false,     // metaKey
+  40,        // keyCode: unsigned long - the virtual key code, else 0
+  0          // charCode: unsigned long - the Unicode character associated with the depressed key, else 0
+);
+
+// Fire event
+document.dispatchEvent(keyboardEvent);
+
 window.onload = test;
 </script>
