@@ -383,7 +383,14 @@ async function test() {
 	document.getElementById('keyboard').style.display = "block";
 	
 	let previousAttempt = localStorage.getItem('day_' + Difference_In_Days);
+	cleanup('day_', Difference_In_Days-1);
 	fillPreviousAttempt(previousAttempt);
+}
+function cleanup(key, idx) {
+	while(idx >= 0) {
+		localStorage.removeItem(key + idx);
+		idx--;
+	}
 }
 function buildView() {
 	for(let r = 0; r<6; r++) {
