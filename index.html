@@ -1,6 +1,6 @@
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Comfortaa&subset=latin,cyrillic">
+<link rel="stylesheet" href="pyro.css">
 <style>
 #board-container {
     display: flex;
@@ -91,7 +91,7 @@ button[disabled] {
     color: #ffffff;
 }
 #keyboard button[data-state='absent'], .row .tile[data-state='absent'] {
-    background-color: #787c7e;
+    background-color: #606060;
     color:#ffffff;
 }
 #logo {
@@ -114,7 +114,7 @@ button[disabled] {
 .hidden {
   visibility: hidden;
 }
-#helpMenu {
+.menu {
 	margin: auto;
 	width: 250px;
 	z-index: 10;
@@ -128,7 +128,7 @@ button[disabled] {
 	font-size: 1.5rem;
     border-radius: 0.3rem;
 }
-#closeHelp {
+.close {
 	position: absolute;
     top: 15px;
     right: 15px;
@@ -140,8 +140,35 @@ button.icon {
     cursor: pointer;
     padding: 0 4px;
 }
+button.help {
+	position: absolute;
+    bottom: 0;
+}
+button.info {
+	position: absolute;
+    bottom: 30px;
+}
+#logo-container {
+	display: inline-block;
+    position: relative;
+}
 .char {
 	font-weight: 600;
+}
+.dailyWord {
+	font-size: 24px;
+    padding-bottom: 15px;
+    padding-top: 10px;	
+    padding-left: 15px;
+	font-weight: bold;
+	color: #385C7D;
+}
+button.share {
+	padding: 10px;
+    display: block;
+}
+hr {
+	border: 1px solid #385C7D;
 }
 @media (max-height: 875px) {
 	.tile{
@@ -187,24 +214,33 @@ button.icon {
 </style>
 </head>
 <body>
+<div id="root">
 <div id="logo">
-	<img src="slova.png" />
-	<button id="help-button" class="icon" onclick="showHelp()">
-<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-    <path fill="#385C7D" d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"></path>
-  </svg>
-</button>
+	<div id="logo-container">
+		<img src="slova.png" />
+		<button id="info-button" class="icon info" onclick="showInfo()">
+			<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+				<path fill="#385C7D" d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-.001 5.75c.69 0 1.251.56 1.251 1.25s-.561 1.25-1.251 1.25-1.249-.56-1.249-1.25.559-1.25 1.249-1.25zm2.001 12.25h-4v-1c.484-.179 1-.201 1-.735v-4.467c0-.534-.516-.618-1-.797v-1h3v6.265c0 .535.517.558 1 .735v.999z"/>
+			</svg>
+		</button>
+		<button id="help-button" class="icon help" onclick="showHelp()">
+			<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+				<path fill="#385C7D" d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"></path>
+			</svg>
+		</button>
+	</div>
 </div>
 
-<div id="helpMenu" style="display: none;">
+<div id="helpMenu" class="menu" style="display: none;">
 <h3>инструкции</h3>
-<div id="closeHelp" onclick="showHelp()">
+<div class="close" onclick="showHelp()">
 <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-    <path fill="var(--color-tone-3)" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
+    <path fill="#385C7D" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
   </svg>
 </div>
 
 <p>Догадки должны быть действительными словами.</p>
+<p>Вы можете использовать свою реальную клавиатуру, а не экранную, если хотите.</p>
 <div class="row">
 	<div class="tile" data-state="correct">с</div>
 	<div class="tile" data-state="absent">л</div>
@@ -215,6 +251,24 @@ button.icon {
 <p><span class="char">с</span> находится в правильном месте.<br />
 <span class="char">о</span> в слове, но не в том месте.<br />
 <span class="char">а</span> не в слове.</p>
+<hr />
+<p>Думаете, пропущено слово? Дайте нам знать</p>
+<a href="mailto: slovaru.feedback@gmail.com?subject=Пропущенное слово" target="_blank">
+	<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
+		<path fill="#385C7D" d="M0 3v18h24v-18h-24zm6.623 7.929l-4.623 5.712v-9.458l4.623 3.746zm-4.141-5.929h19.035l-9.517 7.713-9.518-7.713zm5.694 7.188l3.824 3.099 3.83-3.104 5.612 6.817h-18.779l5.513-6.812zm9.208-1.264l4.616-3.741v9.348l-4.616-5.607z"/>
+	</svg>
+</a>
+</div>
+
+<div id="infoMenu" class="menu" style="display: none;">
+<h3>Информация</h3>
+<div class="close" onclick="showInfo()">
+<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+    <path fill="#385C7D" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
+  </svg>
+</div>
+
+<p id="info-content"></p>
 </div>
 
 <div id="invalidWarning" class="hidden">Это не настоящее слово</div>
@@ -222,7 +276,7 @@ button.icon {
 <div id="board">
 </div>
 </div>
-<div id="keyboard">
+<div id="keyboard" style="display: none;">
 <div class="row">
 	<button id="ё" onclick="buttonClick(this)">ё</button>
 	<button id="1" disabled>1</button>
@@ -277,6 +331,7 @@ button.icon {
 	<button id="←" class="one-and-a-half" onclick="buttonClick(this)">del</button>
 </div>
 </div>
+</div>
 </body>
 </html>
 <script>
@@ -291,6 +346,12 @@ let Difference_In_Days;
 let foundWord = false
 const validChars = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
 async function test() {
+	updateTimer();
+	const eula = localStorage.getItem('eula');
+	if (!eula) {
+		localStorage.setItem('eula', true);
+		showHelp();
+	}
 	const cachedWords = localStorage.getItem('wordcache_1');	
 	if (!cachedWords) {
 		const url = "https://raw.githubusercontent.com/Dird/ru/main/shuffle.txt"
@@ -303,6 +364,11 @@ async function test() {
 		possibleWords = cachedWords.split(',');
 	}
 	
+	if (possibleWords.length == 0) {
+		document.getElementById('board').innerHTML = 'Была проблема. Пожалуйста, перезагрузите страницу.';
+		return;
+	}
+	
 	const start_date = new Date(2022, 0, 22);
 	const present_date = new Date();
 	const present_utc = new Date(present_date.getTime() + present_date.getTimezoneOffset() * 60 * 1000);
@@ -313,7 +379,8 @@ async function test() {
 	Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);	
 	
 	wordOfTheDay = possibleWords[Difference_In_Days % possibleWords.length];		
-	buildView();
+	buildView();	
+	document.getElementById('keyboard').style.display = "block";
 	
 	let previousAttempt = localStorage.getItem('day_' + Difference_In_Days);
 	fillPreviousAttempt(previousAttempt);
@@ -350,7 +417,7 @@ function showInvalidWordWarning() {
 	document.getElementById('invalidWarning').classList.remove('hidden');
   setTimeout(function(){
     document.getElementById('invalidWarning').classList.add('hidden');
-  },2000)
+  },2000);
 }
 function showHelp() {
 	const menu = document.getElementById('helpMenu');
@@ -360,11 +427,30 @@ function showHelp() {
 		menu.style.display = "none";
 	}
 }
-function buttonClick(e) {
+function party() {
+	const pyro = document.createElement('div');
+	pyro.classList.add('pyro');
+	const beforeDiv = document.createElement('div');
+	beforeDiv.classList.add('before');
+	const afterDiv = document.createElement('div');
+	afterDiv.classList.add('after');
+	pyro.appendChild(beforeDiv);
+	pyro.appendChild(afterDiv);
+	const content = document.getElementById('info-content');
+	content.appendChild(pyro);
+	
+	setTimeout(function(){
+		content.removeChild(pyro);
+	},2000);
+}
+function buttonClick(e) {	
 	const val = e.innerHTML.toLowerCase();
 	checkInput(val);
 }
 function checkInput(val) {
+	if(currentRow == 6 || foundWord) {
+		return;
+	}
 	if (val == "del") { deleteChar(); return; }
 	if (val == "enter") { checkWord(); return; }
 	currentWord += val;
@@ -380,14 +466,119 @@ function deleteChar() {
 	currentWord = currentWord.substring(0, currentWord.length-1);
 }
 
+setInterval(updateTimer, 1000);
+const date = new Date();
+const second = date.getSeconds();
+const minute = date.getMinutes();
+const hour = date.getHours();
+const day = date.getDay();
+const month = date.getMonth();
+const year = date.getFullYear();
+const leftHour = 23 - hour;
+const leftMinute = 59 - minute;
+const leftSeconds = 59 - second;
+let leftTime = (leftHour * 3600) + (leftMinute * 60) + leftSeconds;
+
+function updateTimer() {
+	leftTime--;
+	const counter = document.getElementById('nextCounter');
+	if (!counter) return;	
+	
+    const h = Math.floor(leftTime / 3600);
+    const m = Math.floor((leftTime - (h * 3600)) / 60);
+    const s = Math.floor(leftTime % 60);	
+
+    counter.innerHTML =  h + " : " + m + " : " + (s+1);
+}
+function showInfo() {
+	const content = document.getElementById('info-content');
+	const existingSpan = document.getElementById('info-span');
+		if (existingSpan) content.removeChild(existingSpan);
+	if (currentRow == 6 || foundWord) {
+		if(foundWord) party();
+				
+		const spanDiv = document.createElement('span');
+		spanDiv.id = 'info-span';
+		
+		const wordHeading = document.createElement('span');
+		wordHeading.innerHTML = 'Сегодняшнее слово:';
+		spanDiv.appendChild(wordHeading);
+		
+		const dailyWord = document.createElement('div');
+		dailyWord.classList.add('dailyWord');
+		dailyWord.innerHTML = wordOfTheDay;
+		spanDiv.appendChild(dailyWord);
+		
+		const nextHeading = document.createElement('span');
+		nextHeading.innerHTML = 'Следующее слово:';
+		spanDiv.appendChild(nextHeading);
+		
+		const nextCounter = document.createElement('div');
+		nextCounter.id = 'nextCounter';
+		nextCounter.classList.add('dailyWord');
+		spanDiv.appendChild(nextCounter);		
+		
+		const shareHeading = document.createElement('span');
+		shareHeading.innerHTML = 'доля:';
+		spanDiv.appendChild(shareHeading);
+		
+		const shareDiv = document.createElement('button');
+		shareDiv.classList.add('icon');
+		shareDiv.classList.add('share');
+		shareDiv.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">' +
+				'<path fill="#385C7D" d="M5 7c2.761 0 5 2.239 5 5s-2.239 5-5 5-5-2.239-5-5 2.239-5 5-5zm11.122 12.065c-.073.301-.122.611-.122.935 0 2.209 1.791 4 4 4s4-1.791 4-4-1.791-4-4-4c-1.165 0-2.204.506-2.935 1.301l-5.488-2.927c-.23.636-.549 1.229-.943 1.764l5.488 2.927zm7.878-15.065c0-2.209-1.791-4-4-4s-4 1.791-4 4c0 .324.049.634.122.935l-5.488 2.927c.395.535.713 1.127.943 1.764l5.488-2.927c.731.795 1.77 1.301 2.935 1.301 2.209 0 4-1.791 4-4z"/>' +
+			'</svg>';
+		shareDiv.onclick = share;
+		spanDiv.appendChild(shareDiv);
+		
+		content.appendChild(spanDiv);
+		updateTimer();
+	} else {
+		const spanDiv = document.createElement('span');
+		spanDiv.id = 'info-span';
+		spanDiv.innerHTML = 'Попробуйте сначала угадать слово';
+		content.appendChild(spanDiv);		
+	}
+
+	const menu = document.getElementById('infoMenu');
+	if (menu.style.display === "none") {
+	menu.style.display = "block";
+	} else {
+		menu.style.display = "none";
+	}
+}
+function share() {
+	let result = 'слово #' + Difference_In_Days;
+	if (!foundWord) {
+		result += ' X/6\n\n';
+	} else {
+		result += ' ' + currentRow +'/6\n\n';
+	}
+	for(let r = 0; r<currentRow; r++) {
+		for(let c = 0; c<5; c++) {
+			const tile = document.getElementById(r + '_' + c);
+			const state = tile.getAttribute('data-state');
+			if (state == 'correct') {
+				result += '🟩';
+			} else if (state == 'present') {
+				result += '🟪';
+			} else {
+				result += '⬛';
+			}
+		}
+		result += '\n';
+	}
+	
+	navigator.clipboard.writeText(result);
+}
 function checkWord() {
+	if (currentRow == 6 || foundWord) {
+		showInfo();
+		return;
+	}
 	if (currentTile != 5) {
 		return;
-	}
-	if (currentRow == 6 || foundWord) {
-		alert('игра закончена. Чтобы воспроизвести снова, обновите страницу. ответ был:' + wordOfTheDay);
-		return;
-	}
+	}	
 	if (!possibleWords.includes(currentWord)) {
 		showInvalidWordWarning();
 		while(currentTile > 0) {
@@ -424,12 +615,16 @@ function checkWord() {
 	}	
 	guesses.push(currentWord);
 	localStorage.setItem('day_' + Difference_In_Days, guesses);
+	currentRow++;
 	if (currentWord == wordOfTheDay) {
-		alert('uraaa! ты выиграл!');
+		party();
 		foundWord = true;
+		showInfo();
 		return;
 	}	
-	currentRow++;
+	if(currentRow == 6) {
+		showInfo();
+	}
 	currentTile = 0;	
 	currentWord = "";
 }
