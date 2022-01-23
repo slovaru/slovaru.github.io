@@ -1,6 +1,5 @@
 <html>
 <head>
-<link rel="stylesheet" href="pyro.css">
 <style>
 #board-container {
     display: flex;
@@ -218,12 +217,12 @@ hr {
 <div id="logo">
 	<div id="logo-container">
 		<img src="slova.png" />
-		<button id="info-button" class="icon info" onclick="showInfo()">
+		<button id="info-button" class="icon info" onclick="showInfo()" title="Информация">
 			<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
 				<path fill="#385C7D" d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-.001 5.75c.69 0 1.251.56 1.251 1.25s-.561 1.25-1.251 1.25-1.249-.56-1.249-1.25.559-1.25 1.249-1.25zm2.001 12.25h-4v-1c.484-.179 1-.201 1-.735v-4.467c0-.534-.516-.618-1-.797v-1h3v6.265c0 .535.517.558 1 .735v.999z"/>
 			</svg>
 		</button>
-		<button id="help-button" class="icon help" onclick="showHelp()">
+		<button id="help-button" class="icon help" onclick="showHelp()" title="инструкции">
 			<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
 				<path fill="#385C7D" d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"></path>
 			</svg>
@@ -427,22 +426,6 @@ function showHelp() {
 		menu.style.display = "none";
 	}
 }
-function party() {
-	const pyro = document.createElement('div');
-	pyro.classList.add('pyro');
-	const beforeDiv = document.createElement('div');
-	beforeDiv.classList.add('before');
-	const afterDiv = document.createElement('div');
-	afterDiv.classList.add('after');
-	pyro.appendChild(beforeDiv);
-	pyro.appendChild(afterDiv);
-	const content = document.getElementById('info-content');
-	content.appendChild(pyro);
-	
-	setTimeout(function(){
-		content.removeChild(pyro);
-	},2000);
-}
 function buttonClick(e) {	
 	const val = e.innerHTML.toLowerCase();
 	checkInput(val);
@@ -494,8 +477,6 @@ function showInfo() {
 	const existingSpan = document.getElementById('info-span');
 		if (existingSpan) content.removeChild(existingSpan);
 	if (currentRow == 6 || foundWord) {
-		if(foundWord) party();
-				
 		const spanDiv = document.createElement('span');
 		spanDiv.id = 'info-span';
 		
@@ -616,7 +597,6 @@ function checkWord() {
 	localStorage.setItem('day_' + Difference_In_Days, guesses);
 	currentRow++;
 	if (currentWord == wordOfTheDay) {
-		party();
 		foundWord = true;
 		showInfo();
 		return;
