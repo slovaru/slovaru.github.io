@@ -377,8 +377,7 @@ async function test() {
 	// To calculate the no. of days between two dates
 	Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);	
 	
-	wordOfTheDay = possibleWords[Difference_In_Days % possibleWords.length];		
-	wordOfTheDay = 'унция'; // анион
+	wordOfTheDay = possibleWords[Difference_In_Days % possibleWords.length];	
 	buildView();	
 	document.getElementById('keyboard').style.display = "block";
 	
