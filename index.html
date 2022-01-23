@@ -420,59 +420,15 @@ function showInvalidWordWarning() {
 }
 function showHelp() {
 	const menu = document.getElementById('helpMenu');
+	document.getElementById('infoMenu').style.display = "none";
 	if(menu.style.display === "none") {
 	menu.style.display = "block";
 	} else {
 		menu.style.display = "none";
 	}
 }
-function buttonClick(e) {	
-	const val = e.innerHTML.toLowerCase();
-	checkInput(val);
-}
-function checkInput(val) {
-	if(currentRow == 6 || foundWord) {
-		return;
-	}
-	if (val == "del") { deleteChar(); return; }
-	if (val == "enter") { checkWord(); return; }
-	currentWord += val;
-	document.getElementById(currentRow + '_' + currentTile).innerHTML = val;
-	currentTile++;
-}
-function deleteChar() {
-	if(currentTile == 0) {
-		return;
-	}
-	currentTile--;
-	document.getElementById(currentRow + '_' + currentTile).innerHTML = '';	
-	currentWord = currentWord.substring(0, currentWord.length-1);
-}
-
-setInterval(updateTimer, 1000);
-const second = present_utc.getSeconds();
-const minute = present_utc.getMinutes();
-const hour = present_utc.getHours();
-const day = present_utc.getDay();
-const month = present_utc.getMonth();
-const year = present_utc.getFullYear();
-const leftHour = 23 - hour;
-const leftMinute = 59 - minute;
-const leftSeconds = 59 - second;
-let leftTime = (leftHour * 3600) + (leftMinute * 60) + leftSeconds;
-
-function updateTimer() {
-	leftTime--;
-	const counter = document.getElementById('nextCounter');
-	if (!counter) return;	
-	
-    const h = Math.floor(leftTime / 3600);
-    const m = Math.floor((leftTime - (h * 3600)) / 60);
-    const s = Math.floor(leftTime % 60);	
-
-    counter.innerHTML =  h + " : " + m + " : " + (s+1);
-}
 function showInfo() {
+	document.getElementById('helpMenu').style.display = "none";
 	const content = document.getElementById('info-content');
 	const existingSpan = document.getElementById('info-span');
 		if (existingSpan) content.removeChild(existingSpan);
@@ -526,6 +482,52 @@ function showInfo() {
 	} else {
 		menu.style.display = "none";
 	}
+}
+function buttonClick(e) {	
+	const val = e.innerHTML.toLowerCase();
+	checkInput(val);
+}
+function checkInput(val) {
+	if(currentRow == 6 || foundWord) {
+		return;
+	}
+	if (val == "del") { deleteChar(); return; }
+	if (val == "enter") { checkWord(); return; }
+	currentWord += val;
+	document.getElementById(currentRow + '_' + currentTile).innerHTML = val;
+	currentTile++;
+}
+function deleteChar() {
+	if(currentTile == 0) {
+		return;
+	}
+	currentTile--;
+	document.getElementById(currentRow + '_' + currentTile).innerHTML = '';	
+	currentWord = currentWord.substring(0, currentWord.length-1);
+}
+
+setInterval(updateTimer, 1000);
+const second = present_utc.getSeconds();
+const minute = present_utc.getMinutes();
+const hour = present_utc.getHours();
+const day = present_utc.getDay();
+const month = present_utc.getMonth();
+const year = present_utc.getFullYear();
+const leftHour = 23 - hour;
+const leftMinute = 59 - minute;
+const leftSeconds = 59 - second;
+let leftTime = (leftHour * 3600) + (leftMinute * 60) + leftSeconds;
+
+function updateTimer() {
+	leftTime--;
+	const counter = document.getElementById('nextCounter');
+	if (!counter) return;	
+	
+    const h = Math.floor(leftTime / 3600);
+    const m = Math.floor((leftTime - (h * 3600)) / 60);
+    const s = Math.floor(leftTime % 60);	
+
+    counter.innerHTML =  h + " : " + m + " : " + (s+1);
 }
 function share() {
 	let result = 'слово #' + Difference_In_Days;
