@@ -356,20 +356,21 @@ async function test() {
 	}
 	const cachedWords = localStorage.getItem('wordcache_1');	
 	if (!cachedWords) {
-		const url = "https://raw.githubusercontent.com/Dird/ru/main/shuffle.txt"
-		const response = await fetch(url);
-		const wordles = await response.text();
-		const words = wordles.split('\n');
-		possibleWords = words;
-		localStorage.setItem('wordcache_1', words);
+		try {
+			const url = "https://raw.githubusercontent.com/Dird/ru/main/shuffle.txt"
+			const response = await fetch(url);
+			const wordles = await response.text();
+			const words = wordles.split('\n');
+			possibleWords = words;
+			localStorage.setItem('wordcache_1', words);
+		} catch(err) {
+			document.getElementById('board').innerHTML = 'Была проблема. Пожалуйста, перезагрузите страницу.';
+			return;
+		}
 	} else {
 		possibleWords = cachedWords.split(',');
 	}
 	
-	if (possibleWords.length == 0) {
-		document.getElementById('board').innerHTML = 'Была проблема. Пожалуйста, перезагрузите страницу.';
-		return;
-	}	
 	const cropped_utc = new Date(present_date.getTime() + present_date.getTimezoneOffset() * 60 * 1000);
 	cropped_utc.setHours(0, 0, 0, 0);
 	// To calculate the time difference of two dates
