@@ -345,6 +345,9 @@ let guesses = [];
 let Difference_In_Days;
 let foundWord = false
 const validChars = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
+const start_date = new Date(2022, 0, 21);
+const present_date = new Date();
+const present_utc = new Date(present_date.getTime() + present_date.getTimezoneOffset() * 60 * 1000);
 async function test() {
 	updateTimer();
 	const eula = localStorage.getItem('eula');
@@ -367,14 +370,11 @@ async function test() {
 	if (possibleWords.length == 0) {
 		document.getElementById('board').innerHTML = 'Была проблема. Пожалуйста, перезагрузите страницу.';
 		return;
-	}
-	
-	const start_date = new Date(2022, 0, 21);
-	const present_date = new Date();
-	const present_utc = new Date(present_date.getTime() + present_date.getTimezoneOffset() * 60 * 1000);
-	present_utc.setHours(0, 0, 0, 0);
+	}	
+	const cropped_utc = new Date(present_date.getTime() + present_date.getTimezoneOffset() * 60 * 1000);
+	cropped_utc.setHours(0, 0, 0, 0);
 	// To calculate the time difference of two dates
-	const Difference_In_Time = present_utc.getTime() - start_date.getTime();  
+	const Difference_In_Time = cropped_utc.getTime() - start_date.getTime();  
 	// To calculate the no. of days between two dates
 	Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);	
 	
@@ -467,13 +467,12 @@ function deleteChar() {
 }
 
 setInterval(updateTimer, 1000);
-const date = new Date();
-const second = date.getSeconds();
-const minute = date.getMinutes();
-const hour = date.getHours();
-const day = date.getDay();
-const month = date.getMonth();
-const year = date.getFullYear();
+const second = present_utc.getSeconds();
+const minute = present_utc.getMinutes();
+const hour = present_utc.getHours();
+const day = present_utc.getDay();
+const month = present_utc.getMonth();
+const year = present_utc.getFullYear();
 const leftHour = 23 - hour;
 const leftMinute = 59 - minute;
 const leftSeconds = 59 - second;
