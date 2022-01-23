@@ -240,7 +240,7 @@ hr {
 </div>
 
 <p>Догадки должны быть действительными словами.</p>
-<p>Вы можете использовать свою реальную клавиатуру, а не экранную, если хотите.</p>
+<p>Если хотите, вы можете использовать свою обычную клавиатуру вместо экранной.</p>
 <div class="row">
 	<div class="tile" data-state="correct">с</div>
 	<div class="tile" data-state="absent">л</div>
@@ -369,7 +369,7 @@ async function test() {
 		return;
 	}
 	
-	const start_date = new Date(2022, 0, 22);
+	const start_date = new Date(2022, 0, 21);
 	const present_date = new Date();
 	const present_utc = new Date(present_date.getTime() + present_date.getTimezoneOffset() * 60 * 1000);
 	present_utc.setHours(0, 0, 0, 0);
@@ -519,7 +519,7 @@ function showInfo() {
 		spanDiv.appendChild(nextCounter);		
 		
 		const shareHeading = document.createElement('span');
-		shareHeading.innerHTML = 'доля:';
+		shareHeading.innerHTML = 'Копировать и поделиться:';
 		spanDiv.appendChild(shareHeading);
 		
 		const shareDiv = document.createElement('button');
