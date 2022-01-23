@@ -378,6 +378,7 @@ async function test() {
 	Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);	
 	
 	wordOfTheDay = possibleWords[Difference_In_Days % possibleWords.length];		
+	wordOfTheDay = 'унция'; // анион
 	buildView();	
 	document.getElementById('keyboard').style.display = "block";
 	
@@ -618,20 +619,21 @@ function getPositions(word, targetChar) {
 	}
 	return arr;
 }
-function matchingPositions(arr1, arr2) {
+function matchingPositions(correctArr, guessArr) {
 	let aPos = 0;
 	let bPos = 0;
-	for(; aPos < arr1.length && bPos < arr2.length;) {
-		if(arr1[aPos] == arr2[bPos]) {
-			return true;
+	let matches = 0;
+	for(; aPos < correctArr.length && bPos < guessArr.length;) {
+		if(correctArr[aPos] == guessArr[bPos]) {
+			matches++;
 		}
-		if (arr1[aPos] > arr2[bPos]) {
+		if (correctArr[aPos] > guessArr[bPos]) {
 			bPos++;
 		} else {
 			aPos++;
 		}
 	}
-	return false;
+	return matches == correctArr.length;
 }
 
 // Create listener 
