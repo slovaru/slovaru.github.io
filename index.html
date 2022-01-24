@@ -122,7 +122,6 @@ button[disabled] {
     right: 0;
 	background: #FCE361;
 	padding: 0rem 2rem 1rem 2rem;
-	text-align: justify;
 }
 #helpMenu .tile {
 	font-size: 1.5rem;
@@ -239,10 +238,8 @@ hr {
   </svg>
 </div>
 
-<p>Вам нужно угадать слово дня. На это даётся 6 попыток.</p>
-<p>Вводить можно только настоящие слова.</p>
-<p>Для ввода слов вы можете использовать обычную клавиатуру вместо экранной.</p>
-</p>Нажмите клавишу Enter, чтобы проверить правильность вашей догадки.</p>
+<p>Вам нужно угадать слово дня. На это даётся 6 попыток. Вводить можно только настоящие слова.</p>
+<p>Для ввода слов вы можете использовать обычную клавиатуру вместо экранной. Нажмите клавишу Enter, чтобы проверить правильность вашей догадки.</p>
 <div class="row">
 	<div class="tile" data-state="correct">с</div>
 	<div class="tile" data-state="absent">л</div>
@@ -541,7 +538,7 @@ function updateTimer() {
     const m = Math.floor((leftTime - (h * 3600)) / 60);
     const s = Math.floor(leftTime % 60);	
 
-    counter.innerHTML =  h + " : " + m + " : " + (s+1);
+    counter.innerHTML =  String(h).padStart(2, '0') + " : " + String(m).padStart(2, '0') + " : " + String(s+1).padStart(2, '0');
 }
 function share() {
 	let result = 'слово #' + Difference_In_Days;
