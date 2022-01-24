@@ -504,6 +504,8 @@ function checkInput(val) {
 	}
 	if (val == "del") { deleteChar(); return; }
 	if (val == "enter") { checkWord(); return; }
+	
+	if(currentWord.length == 5) return;
 	currentWord += val;
 	document.getElementById(currentRow + '_' + currentTile).innerHTML = val;
 	currentTile++;
