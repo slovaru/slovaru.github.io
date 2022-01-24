@@ -467,7 +467,9 @@ function showInfo() {
 		spanDiv.appendChild(shareHeading);
 		
 		const shareDiv = document.createElement('div');
+		shareDiv.style.display = 'table';
 		const shareBut = document.createElement('button');
+		shareBut.style.display = 'table-cell';
 		shareBut.classList.add('icon');
 		shareBut.classList.add('share');
 		shareBut.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">' +
@@ -477,9 +479,11 @@ function showInfo() {
 		
 		const copiedLabel = document.createElement('span');
 		copiedLabel.id = 'copy-span';
+		copiedLabel.style.display = 'none';
+		copiedLabel.style.padding = '10px';
+		copiedLabel.style.verticalAlign = 'middle';
 		copiedLabel.classList.add('dailyWord');
 		copiedLabel.innerHTML = 'скопировано';	
-		copiedLabel.style.display = 'none';	
 		
 		shareDiv.appendChild(shareBut);
 		shareDiv.appendChild(copiedLabel);
@@ -574,7 +578,7 @@ function share() {
 	
 	navigator.clipboard.writeText(result);
 	const label = document.getElementById('copy-span');
-	label.style.display = 'inline';
+	label.style.display = 'table-cell';
 	
 	setTimeout(function(){
 		label.style.display = 'none';
