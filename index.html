@@ -357,7 +357,7 @@ async function test() {
 		localStorage.setItem('eula', true);
 		showHelp();
 	}
-	const cachedWords = localStorage.getItem('wordcache_2');	
+	const cachedWords = localStorage.getItem('wordcache_3');	
 	if (!cachedWords) {
 		try {
 			const url = "https://raw.githubusercontent.com/Dird/ru/main/shuffle.txt"
@@ -365,8 +365,8 @@ async function test() {
 			const wordles = await response.text();
 			const words = wordles.split('\n');
 			possibleWords = words;
-			localStorage.setItem('wordcache_2', words);
-			cleanup('wordcache_', 1);
+			localStorage.setItem('wordcache_3', words);
+			cleanup('wordcache_', 2);
 		} catch(err) {
 			document.getElementById('board').innerHTML = 'Была проблема. Пожалуйста, перезагрузите страницу.';
 			return;
