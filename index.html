@@ -340,7 +340,8 @@ let guesses = [];
 let Difference_In_Days;
 let foundWord = false
 const validChars = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
-const start_date = new Date(2022, 0, 21);
+const initial_date = new Date(2022, 0, 21);
+const start_date = new Date(initial_date.getTime() + initial_date.getTimezoneOffset() * 60 * 1000);
 const present_date = new Date();
 const present_utc = new Date(present_date.getTime() + present_date.getTimezoneOffset() * 60 * 1000);
 async function test() {
@@ -373,7 +374,7 @@ async function test() {
 	// To calculate the time difference of two dates
 	const Difference_In_Time = cropped_utc.getTime() - start_date.getTime();  
 	// To calculate the no. of days between two dates
-	Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);	
+	Difference_In_Days = Math.trunc(Difference_In_Time / (1000 * 3600 * 24));	
 	
 	wordOfTheDay = possibleWords[Difference_In_Days % possibleWords.length];	
 	buildView();	
